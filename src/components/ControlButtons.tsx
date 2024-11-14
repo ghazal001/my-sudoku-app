@@ -3,6 +3,7 @@ import { Game, GameContext } from "../game";
 import { Sudoku, Dispatch } from "../types";
 import { initialNotes } from "../constants/constants";
 import { isCorrect } from "../functions/board";
+import { useSudokuContext } from "../context/SudokuContext";
 
 const isDisabled = (button: string, disabled: string[]) =>
   disabled.filter((item) => item === button).length > 0 ? true : false;
@@ -14,6 +15,7 @@ const handleCheck = (game: Game, dispatch: Dispatch) =>
       ? { type: "success", message: "Correct!" }
       : { type: "warning", message: "Wrong answer. Try again!" },
   });
+
 
 const handleClear = (sudoku: Sudoku, dispatch: Dispatch) =>
   dispatch({
@@ -30,12 +32,14 @@ const handleShowResult = (solution: Sudoku, dispatch: Dispatch) => {
   dispatch({ type: "SET_DISABLED", disabled: ["check", "clear"] });
 };
 
-const handleNewGame = (dispatch: Dispatch) => {
-  dispatch({ type: "NEW_GAME" });
+const handleNewGame = (dispatch: Dispatch, difficulty:string) => {
+  dispatch({ type: "NEW_GAME", difficulty });
 };
+
 
 const ControlButtons = () => {
   const { game, dispatch } = useContext(GameContext);
+  const {difficulty} = useSudokuContext();
 
   return (
     <div className="btn-group">
@@ -59,7 +63,7 @@ const ControlButtons = () => {
       </button>
       <button
         disabled={isDisabled("newGame", game.disabled)}
-        onClick={() => handleNewGame(dispatch)}
+        onClick={() => handleNewGame(dispatch,difficulty)}
       >
         New Game
       </button>

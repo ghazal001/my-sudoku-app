@@ -2,6 +2,7 @@ import { makepuzzle, solvepuzzle } from "sudoku";
 import { Sudoku, Dispatch, Button, Alert } from "./types";
 import { rawToSudoku, makeSolution } from "./functions/board";
 import { createContext } from "react";
+import { generateSudokuPuzzle } from "./utils/sudokuGenerator";
 
 export type Game = {
   puzzle: unknown;
@@ -17,10 +18,10 @@ export type GameAction =
   | { type: "SET_DISABLED"; disabled: string[] }
   | { type: "SET_BUTTON"; button: Button }
   | { type: "SET_ALERT"; alert: Alert }
-  | { type: "NEW_GAME" };
+  | { type: "NEW_GAME" ; difficulty:string};
 
-const newGame = (): Game => {
-  const puzzle = makepuzzle();
+const newGame = (difficulty : string): Game => {
+  const puzzle = generateSudokuPuzzle(difficulty);
   const sudoku = rawToSudoku(puzzle);
   const solved = rawToSudoku(solvepuzzle(puzzle));
   const solution = makeSolution(sudoku, solved);
@@ -45,7 +46,7 @@ export const gameReducer = (game: Game, action: GameAction): Game => {
     case "SET_ALERT":
       return { ...game, alert: action.alert };
     case "NEW_GAME":
-      return newGame();
+      return newGame(action.difficulty);
   }
 };
 
@@ -53,6 +54,6 @@ export const GameContext = createContext<{
   game: Game;
   dispatch: Dispatch;
 }>({
-  game: newGame(),
+  game: newGame("Easy"),
   dispatch: () => undefined,
 });
