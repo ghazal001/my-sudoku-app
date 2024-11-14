@@ -28,7 +28,9 @@ const Board = () => {
             <div className="board">
                 <div className="header">
                     <h1>SUDOKU</h1>
+                    <div className="difficulty">
                     <Difficulty onChange={handleDifficultyChange} />
+                    </div>
                 </div>
                 <Alert />
                 <Grid />

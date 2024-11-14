@@ -37,7 +37,7 @@ const generateHardPuzzle = () => {
     return createPuzzle(55); // Placeholder for puzzle with 55 empty cells (hard)
 };
 
-// Core puzzle generator logic
+// // Core puzzle generator logic
 const createPuzzle = (emptyCells: number) => {
     const fullGrid = makepuzzle(); // Generate a complete grid
 
@@ -53,3 +53,56 @@ const createPuzzle = (emptyCells: number) => {
     return puzzle;
 
 };
+
+
+// Core puzzle generator logic
+// const createPuzzle = (emptyCells: number) => {
+//     // Generate a solvable Sudoku puzzle
+//     let puzzle = makepuzzle();
+
+//     // Ensure the puzzle has the right number of empty cells
+//     let currentEmptyCells = puzzle.filter((cell: null) => cell === null).length;
+
+//     if (currentEmptyCells < emptyCells) {
+//         // Remove additional cells if needed
+//         puzzle = removeExtraCells(puzzle, emptyCells - currentEmptyCells);
+//     } else if (currentEmptyCells > emptyCells) {
+//         // Restore some cells if there are too many empty cells
+//         puzzle = restoreCells(puzzle, currentEmptyCells - emptyCells);
+//     }
+
+//     return puzzle;
+// };
+
+
+// // Helper function to remove extra cells from the puzzle
+// const removeExtraCells = (puzzle: (number | null)[], extraCells: number) => {
+//     const newPuzzle = [...puzzle];
+//     let count = 0;
+
+//     while (count < extraCells) {
+//         const randomIndex = Math.floor(Math.random() * 81);
+//         if (newPuzzle[randomIndex] !== null) {
+//             newPuzzle[randomIndex] = null;
+//             count++;
+//         }
+//     }
+
+//     return newPuzzle;
+// };
+
+// // Helper function to restore cells if too many are removed
+// const restoreCells = (puzzle: (number | null)[], cellsToRestore: number) => {
+//     const newPuzzle = [...puzzle];
+//     let count = 0;
+
+//     while (count < cellsToRestore) {
+//         const randomIndex = Math.floor(Math.random() * 81);
+//         if (newPuzzle[randomIndex] === null) {
+//             newPuzzle[randomIndex] = Math.floor(Math.random() * 9) + 1; // Random placeholder, replace with valid logic if needed
+//             count++;
+//         }
+//     }
+
+//     return newPuzzle;
+// };

@@ -178,3 +178,24 @@ button:disabled {
 button:hover:not(:disabled):not(.btn-selected) {
   background-color: var(--color-bg-primary);
 }
+.header{
+  position:relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.difficulty{
+  
+}
+
+label{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+select{
+  background-color: #2E3440;
+  color: white;
+  font-size: 15px;
+  border: 25px 25px 25px 25px;
+}

@@ -11,7 +11,7 @@ const Difficulty = (props: DifficultyProps) => {
 
     return (
         <div>
-            <label htmlFor="difficulty">Difficulty: </label>
+            <label htmlFor="difficulty" >Difficulty: </label>
             <select id="difficulty" defaultValue={difficulty}
                 onChange={props.onChange}
             >

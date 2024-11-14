@@ -9,6 +9,13 @@ export const rawToSudoku = (data: (number | null)[]) =>
     notes: initialNotes,
   }));
 
+// export const rawToSudoku = (data: (number | null)[] | null) => 
+//   (data ?? []).map((item: number | null) => ({
+//     value: item !== null ? item + 1 : null,
+//     readOnly: item !== null,
+//     notes: initialNotes,
+//   }));
+
 export const makeSolution = (sudoku: Sudoku, solved: Sudoku) => 
   solved.map((item, i) => ({
     ...item,
