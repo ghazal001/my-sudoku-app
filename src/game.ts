@@ -54,6 +54,6 @@ export const GameContext = createContext<{
   game: Game;
   dispatch: Dispatch;
 }>({
-  game: newGame("Easy"),
+  game: newGame("Easy "),
   dispatch: () => undefined,
 });

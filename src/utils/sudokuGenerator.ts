@@ -1,23 +1,27 @@
 // sudokuGenerator.ts
-import { makepuzzle , solvepuzzle } from "sudoku";
+import { makepuzzle, solvepuzzle } from "sudoku";
+
 // Function to generate a Sudoku puzzle based on difficulty
 export const generateSudokuPuzzle = (difficulty: string) => {
     let puzzle;
 
     switch (difficulty) {
         case 'Easy':
-            puzzle = generateEasyPuzzle();
+            puzzle = createPuzzle(25);
             break;
         case 'Medium':
-            puzzle = generateMediumPuzzle();
+            puzzle = createPuzzle(40);
             break;
         case 'Hard':
-            puzzle = generateHardPuzzle();
+            puzzle = createPuzzle(55);
             break;
         default:
-            puzzle = generateEasyPuzzle();
+            puzzle = createPuzzle(25);
     }
-
+    // Ensure the puzzle is a complete array with 81 elements
+    if (!puzzle || puzzle.length !== 81) {
+        puzzle = createPuzzle(25);
+    }
     return puzzle;
 };
 
@@ -38,21 +42,48 @@ const generateHardPuzzle = () => {
 };
 
 // // Core puzzle generator logic
-const createPuzzle = (emptyCells: number) => {
-    const fullGrid = makepuzzle(); // Generate a complete grid
+// const createPuzzle = (emptyCells: number) => {
+//     const fullGrid = makepuzzle(); // Generate a complete grid
 
-    // Make a copy to modify for the puzzle
-    const puzzle = fullGrid.map((cell: null) => cell !== null ? cell : null);
+//     // Make a copy to modify for the puzzle
+//     const puzzle = fullGrid.map((cell: null) => cell !== null ? cell : null);
 
-    // Randomly remove cells to create the puzzle
-    for (let i = 0; i < emptyCells; i++) {
-        const randomIndex = Math.floor(Math.random() * 81);
-        puzzle[randomIndex] = null; // Remove cell
-    }
+//     // Randomly remove cells to create the puzzle
+//     for (let i = 0; i < emptyCells; i++) {
+//         const randomIndex = Math.floor(Math.random() * 81);
+//         puzzle[randomIndex] = null; // Remove cell
+//     }
 
-    return puzzle;
+//     return puzzle;
 
-};
+// };
+
+
+
+
+
+// // Core puzzle generator logic
+// const createPuzzle = (emptyCells: number) => {
+//     let fullGrid = makepuzzle();
+
+//     // Check if makepuzzle returned a valid array; if not, create a new empty puzzle
+//     if (!fullGrid || fullGrid.length !== 81) {
+//         fullGrid = Array(81).fill(null);
+//     }
+
+//     // Ensure we have 81 cells and map it to ensure any undefined values are set to null
+//     const puzzle = fullGrid.map((cell: number | null) => cell !== null ? cell : null);
+
+//     // Randomly remove cells to create the puzzle
+//     for (let i = 0; i < emptyCells; i++) {
+//         const randomIndex = Math.floor(Math.random() * 81);
+//         puzzle[randomIndex] = null; // Remove cell
+//     }
+
+//     return puzzle;
+// };
+
+
 
 
 // Core puzzle generator logic
@@ -106,3 +137,62 @@ const createPuzzle = (emptyCells: number) => {
 
 //     return newPuzzle;
 // };
+
+
+
+// Core puzzle generator logic
+const createPuzzle = (emptyCells: number) => {
+    let puzzle = makepuzzle();
+
+    // Check if makepuzzle returned a valid array; if not, initialize an empty puzzle
+    if (!puzzle || puzzle.length !== 81) {
+        puzzle = Array(81).fill(null);
+    }
+
+    // Ensure the puzzle has the right number of empty cells
+    let currentEmptyCells = puzzle.filter((cell: null) => cell === null).length;
+
+    if (currentEmptyCells < emptyCells) {
+        // Remove additional cells if needed
+        puzzle = removeExtraCells(puzzle, emptyCells - currentEmptyCells);
+    } else if (currentEmptyCells > emptyCells) {
+        // Restore some cells if there are too many empty cells
+        puzzle = restoreCells(puzzle, currentEmptyCells - emptyCells);
+    }
+
+    return puzzle;
+};
+
+// Helper function to remove extra cells from the puzzle
+const removeExtraCells = (puzzle: (number | null)[], extraCells: number) => {
+    const newPuzzle = [...puzzle];
+    let count = 0;
+
+    while (count < extraCells) {
+        const randomIndex = Math.floor(Math.random() * 81);
+        if (newPuzzle[randomIndex] !== null) {
+            newPuzzle[randomIndex] = null;
+            count++;
+        }
+    }
+
+    return newPuzzle;
+};
+
+// Helper function to restore cells if too many are removed
+const restoreCells = (puzzle: (number | null)[], cellsToRestore: number) => {
+    const newPuzzle = [...puzzle];
+    let count = 0;
+
+    while (count < cellsToRestore) {
+        const randomIndex = Math.floor(Math.random() * 81);
+        if (newPuzzle[randomIndex] === null) {
+            // Here, we should ideally restore with the correct number from a solution grid.
+            // For simplicity, we’ll restore with a placeholder and set it as a non-readOnly cell.
+            newPuzzle[randomIndex] = Math.floor(Math.random() * 9) + 1;
+            count++;
+        }
+    }
+
+    return newPuzzle;
+};

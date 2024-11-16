@@ -10,7 +10,7 @@ const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
   if (value > 0 || !re.test(e.key)) return e.preventDefault();
 };
 
-const Grid = () => {
+const Grid = ({puzzle}:{puzzle:(number | null)[][]}) => {
   const [hideNotesId, setHideNotesId] = useState<number | null>(null);
   const { game } = useContext(GameContext);
   const grid = makeGrid(game.sudoku);
